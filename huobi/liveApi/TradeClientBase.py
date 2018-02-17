@@ -30,7 +30,7 @@ class TradeAccountBalanceBase(object):
 
     # return available coin, float .4
     @abc.abstractmethod
-    def getBTCAvailable(self):
+    def getCoinAvailable(self):
         raise NotImplementedError()
 
 

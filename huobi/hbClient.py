@@ -70,7 +70,7 @@ class hbTradeAccountBalance(TradeAccountBalanceBase):
         
     def getUSDAvailable(self):
         return self.__obj['usdt']
-    def getBTCAvailable(self):
+    def getCoinAvailable(self):
         return self.__obj['coin']
 
 class hbCoinType():
@@ -125,7 +125,6 @@ class hbTradeClient(TradeClientBase):
     def getAccountBalance(self):
         balances = self.__client.get('/v1/account/accounts/%s/balance' % self.__accountid)
         acc = hbAccountBalance(self.__coinType, balances)
-        print('--getAccountBalance: usdt:%s coin:%s'%(acc.getCash(), acc.getCoin()))
         return hbTradeAccountBalance({'usdt':acc.getCash(), 'coin':acc.getCoin()})
 
     # --

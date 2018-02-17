@@ -43,14 +43,14 @@ class MyStrategy(strategy.BacktestingStrategy):
     def onEnterOk(self, position):
         execInfo = position.getEntryOrder().getExecutionInfo()
 
-        self.info("BUY at $%.2f %.2f %.2f" % (execInfo.getPrice(), execInfo.getQuantity(), self.getBroker().getCash()))
+        self.info("BUY at $%.4f %.4f %.4f" % (execInfo.getPrice(), execInfo.getQuantity(), self.getBroker().getCash()))
 
     def onEnterCanceled(self, position):
         self.__position = None
 
     def onExitOk(self, position):
         execInfo = position.getExitOrder().getExecutionInfo()
-        self.info("SELL at $%.2f %.2f %.2f" % (execInfo.getPrice(), execInfo.getQuantity(), self.getBroker().getCash()))
+        self.info("SELL at $%.4f %.4f %.4f" % (execInfo.getPrice(), execInfo.getQuantity(), self.getBroker().getCash()))
         self.__position = None
 
     def onExitCanceled(self, position):
@@ -66,8 +66,8 @@ class MyStrategy(strategy.BacktestingStrategy):
         # If a position was not opened, check if we should enter a long position.
         if self.__position is None:
             if cross.cross_above(self.__sma[10], self.__sma[30]) > 0:
-                mbroker = self.getBroker();
-                shares = mbroker.getCash() / bar.getPrice() * 0.95;
+                mbroker = self.getBroker()
+                shares = mbroker.getCash() / bar.getPrice() * 0.95
                 #                self.__position = self.marketOrder(self.__instrument, self.__shares)
                 print("buy%.2f in %.2f use %d" % (shares, bar.getPrice(), mbroker.getCash()))
                 self.__position = self.enterLong(self.__instrument, shares, True)

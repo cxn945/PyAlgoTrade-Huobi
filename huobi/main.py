@@ -11,8 +11,8 @@ from liveApi.livebroker import LiveBroker
 from hbClient import hbTradeClient as hbClient
 from hbClient import hbCoinType
 
-COIN_TYPE=hbCoinType('ltc', 'usdt')
-K_PERIOD=60
+COIN_TYPE=hbCoinType('iost', 'usdt')
+K_PERIOD=15
 REQ_DELAY = 0
 
 #COIN_TYPE='ltc'
@@ -34,14 +34,14 @@ class MyStrategy(strategy.BaseStrategy):
     
     def onEnterOk(self, position):
         execInfo = position.getEntryOrder().getExecutionInfo()
-        self.info("BUY at $%.2f %.4f" % (execInfo.getPrice(), execInfo.getQuantity()))
+        self.info("BUY at $%.4f %.4f" % (execInfo.getPrice(), execInfo.getQuantity()))
 
     def onEnterCanceled(self, position):
         self.__position = None
 
     def onExitOk(self, position):
         execInfo = position.getExitOrder().getExecutionInfo()
-        self.info("SELL at $%.2f" % (execInfo.getPrice()))
+        self.info("SELL at $%.4" % (execInfo.getPrice()))
         self.__position = None
 
     def onExitCanceled(self, position):
@@ -55,7 +55,7 @@ class MyStrategy(strategy.BaseStrategy):
             return
         if self.__sma[60][-1] is None:
             return
-        print("onBars %s:%s: close:%.2f"%(self.__instrument, bar.getDateTimeLocal(), bar.getPrice()))
+        print("onBars %s:%s: close:%.4f"%(self.__instrument, bar.getDateTimeLocal(), bar.getPrice()))
 
         bar = bars[self.__instrument]
                     
@@ -98,7 +98,7 @@ def run_strategy():
     
     myStrategy.run()
 #    print "Final portfolio value: $%.2f" % myStrategy.getBroker().getEquity()
-    print "Final portfolio value: $%.2f" % myStrategy.getBroker().getCash()
+    print "Final portfolio value: $%.4f" % myStrategy.getBroker().getCash()
 #    myStrategy.info("Final portfolio value: $%.2f" % myStrategy.getResult())
 
     # Plot the strategy.

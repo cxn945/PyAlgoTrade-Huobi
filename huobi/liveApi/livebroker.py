@@ -21,6 +21,7 @@
 import threading
 import time
 import Queue
+import json
 
 from pyalgotrade import broker
 #import httpclient
@@ -62,8 +63,8 @@ class TradeMonitor(threading.Thread):
         self.__queueOrder = Queue.Queue()
         self.__ordersId = []
         self.__stop = False
-        print("livebroker.TradeMonitor.__init__: POLL_FREQUENCY is %d"%TradeMonitor.POLL_FREQUENCY)
-        print("common.btc_symbol:%s"%common.btc_symbol)
+        common.logger.info("livebroker.TradeMonitor.__init__: POLL_FREQUENCY is %d"%TradeMonitor.POLL_FREQUENCY)
+        common.logger.info("common.btc_symbol:%s"%common.btc_symbol)
 
     def __wait(self):
         sleepTime = 0
@@ -170,17 +171,19 @@ class LiveBroker(broker.Broker):
         self.__stop = True  # Stop running in case of errors.
         common.logger.info("Retrieving account balance.")
         balance = self.__httpClient.getAccountBalance()
+        common.logger.info("balance: %s, coin: %s" % (balance.getUSDAvailable(), balance.getCoinAvailable()))
+
 
         # Cash
         self.__cash = round(balance.getUSDAvailable(), 2)
         common.logger.info("%s USD" % (self.__cash))
         # BTC
-        btc = balance.getBTCAvailable()
+        btc = balance.getCoinAvailable()
         if btc:
             self.__shares = {common.btc_symbol: btc}
         else:
             self.__shares = {}
-        common.logger.info("%s BTC" % (btc))
+        common.logger.info("%s COIN" % (btc))
 
         self.__stop = False  # No errors. Keep running.
 
