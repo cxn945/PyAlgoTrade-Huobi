@@ -1,19 +1,18 @@
 import pandas as pd
 import time
+import config
 
 from hbsdk import ApiClient
 
 API_KEY = "API_KEY"
 API_SECRET = "API_SECRET"
 
-DEFAULT_SYMBOL='btcusdt'
-DEFAULT_PREIOD = 60
 headList=["Date Time","Open","High","Low","Close","Volume","Adj Close"]
 
 client = ApiClient(API_KEY, API_SECRET)
 
 # load history of k-line
-def load_kline(period = DEFAULT_PREIOD, symbol = DEFAULT_SYMBOL):
+def load_kline(period = config.DEFAULT_PREIOD, symbol = config.DEFAULT_PREIOD):
 
     print "start load data, symbol:%s, period: %s minutes" % (symbol, period)
     history = client.mget('/market/history/kline', symbol=symbol, period='%dmin' % period, size=2000)
@@ -21,7 +20,7 @@ def load_kline(period = DEFAULT_PREIOD, symbol = DEFAULT_SYMBOL):
     jdict= reduce(redf, history, [])
     print "total data of reduce count: %d" % len(history)
     df = pd.DataFrame.from_dict(jdict)
-    df.to_csv("2000.csv", index=False, header=headList)
+    df.to_csv(generate_file_name(period, symbol), index=False, header=headList)
 
 def dtf(x):
     time_local = time.localtime(x)
@@ -33,5 +32,7 @@ def rf(x):
 def redf(x,y):
     return x+[rf(y)]
 
-
+def generate_file_name(period, symbol):
+    file_name = "data/history-%s-%smin.csv"%(symbol, period)
+    return file_name
 

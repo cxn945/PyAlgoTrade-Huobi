@@ -71,7 +71,6 @@ class MyStrategy(strategy.BacktestingStrategy):
                 self.__position = self.enterLong(self.__instrument, shares, True)
         # Check if we have to exit the position.
         elif not self.__position.exitActive() and cross.cross_below(self.__sma[5], self.__sma[25]) > 0:
-            #        elif not self.__position.exitActive() and cross.cross_below(self.__sma[10], self.__sma[30]) > 0:
             self.__position.exitMarket()
 
 
@@ -82,23 +81,12 @@ def run_strategy():
 
     # commission
     broker_commission = broker.backtesting.TradePercentage(0.002)
-    broker_brk = floatBroker(50000, feed, broker_commission)
-    #    broker_brk = broker.backtesting.Broker(50000, feed)
+    broker_brk = floatBroker(10000, feed, broker_commission)
     # Evaluate the strategy with the feed.
     myStrategy = MyStrategy(feed, coin, broker_brk)
 
     returnsAnalyzer = returns.Returns()
     myStrategy.attachAnalyzer(returnsAnalyzer)
-
-    # Attach the plotter to the strategy.
-    # plt = plotter.StrategyPlotter(myStrategy)
-    # Include the SMA in the instrument's subplot to get it displayed along with the closing prices.
-    # plt.getInstrumentSubplot(coin).addDataSeries("SMA60", myStrategy.getSMA(60))
-    # plt.getInstrumentSubplot(coin).addDataSeries("SMA10", myStrategy.getSMA(10))
-    # plt.getInstrumentSubplot(coin).addDataSeries("SMA30", myStrategy.getSMA(30))
-    # Plot the simple returns on each bar.
-    # plt.getOrCreateSubplot("returns").addDataSeries("Simple returns", returnsAnalyzer.getReturns())
-
 
     myStrategy.run()
     print("Final portfolio value: $%.2f %.2f %.2f" % (
