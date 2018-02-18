@@ -68,7 +68,6 @@ class MyStrategy(strategy.BacktestingStrategy):
             if cross.cross_above(self.__sma[10], self.__sma[30]) > 0:
                 mbroker = self.getBroker()
                 shares = mbroker.getCash() / bar.getPrice() * 0.95
-                #                self.__position = self.marketOrder(self.__instrument, self.__shares)
                 print("buy%.2f in %.2f use %d" % (shares, bar.getPrice(), mbroker.getCash()))
                 self.__position = self.enterLong(self.__instrument, shares, True)
         # Check if we have to exit the position.

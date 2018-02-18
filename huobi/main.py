@@ -62,12 +62,11 @@ class MyStrategy(strategy.BaseStrategy):
         # If a position was not opened, check if we should enter a long position.
         if self.__position is None:
             if cross.cross_above(self.__sma[10], self.__sma[30]) > 0:
-                mbroker = self.getBroker();
-                shares = mbroker.getCash()/bar.getPrice()*0.9;
-#                self.__position = self.marketOrder(self.__instrument, self.__shares)
+                mbroker = self.getBroker()
+                shares = mbroker.getCash()/bar.getPrice()*0.95
                 self.__position = self.enterLongLimit(self.__instrument, bar.getPrice(), shares, True)
         # Check if we have to exit the position.
-        elif not self.__position.exitActive() and cross.cross_below(self.__sma[10], self.__sma[30]) > 0:
+        elif not self.__position.exitActive() and cross.cross_below(self.__sma[5], self.__sma[25]) > 0:
             self.__position.exitLimit(bar.getPrice())
 
 
