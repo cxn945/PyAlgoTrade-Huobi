@@ -1,15 +1,12 @@
 from pyalgotrade import strategy
-from pyalgotrade import broker
 from pyalgotrade.bar import Frequency
-from pyalgotrade.technical import ma
 from pyalgotrade.technical import cross
-#from pyalgotrade import plotter
-from pyalgotrade.stratanalyzer import returns
+from pyalgotrade.technical import ma
+
+from hbClient import hbCoinType
+from hbClient import hbTradeClient as hbClient
 from liveApi.livebarfeed import LiveFeed
 from liveApi.livebroker import LiveBroker
-
-from hbClient import hbTradeClient as hbClient
-from hbClient import hbCoinType
 
 COIN_TYPE=hbCoinType('iost', 'usdt')
 K_PERIOD=15
@@ -28,6 +25,8 @@ class MyStrategy(strategy.BaseStrategy):
         self.__sma[60] = ma.SMA(self.__prices, 60)
         self.__sma[10] = ma.SMA(self.__prices, 10)
         self.__sma[30] = ma.SMA(self.__prices, 30)
+        self.__sma[25] = ma.SMA(self.__prices, 25)
+        self.__sma[5] = ma.SMA(self.__prices, 5)
 
     def getSMA(self, period):
         return self.__sma[period]

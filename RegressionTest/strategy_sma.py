@@ -1,12 +1,11 @@
-from pyalgotrade import strategy
 from pyalgotrade import broker
+from pyalgotrade import strategy
 from pyalgotrade.bar import Frequency
 from pyalgotrade.barfeed.csvfeed import GenericBarFeed
-from pyalgotrade.technical import ma
-from pyalgotrade.technical import cross
-# from pyalgotrade import plotter
-from pyalgotrade.stratanalyzer import returns
 from pyalgotrade.bitstamp import common
+from pyalgotrade.stratanalyzer import returns
+from pyalgotrade.technical import cross
+from pyalgotrade.technical import ma
 
 
 class F():

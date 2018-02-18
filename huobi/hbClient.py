@@ -1,11 +1,11 @@
-from liveApi.TradeClientBase import *
-from liveApi.liveUtils import *
 from pyalgotrade.utils import dt
-
-from hbsdk import ApiClient, ApiError
 
 from ApiKey import API_KEY
 from ApiKey import API_SECRET
+from hbsdk import ApiClient
+from liveApi.TradeClientBase import *
+from liveApi.liveUtils import *
+
 
 def Str2float(func):
     def waper(*args, **kwargs):
